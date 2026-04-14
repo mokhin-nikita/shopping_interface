@@ -1,0 +1,45 @@
+import java.util.*;
+
+public class Main {
+    public static void main(String[] args) {
+        Person person = new Person("Nikita", "Mokhin");
+        int command;
+        Scanner scanner = new Scanner(System.in);
+        do {
+            command = Integer.parseInt(scanner.nextLine());
+            switch (command) {
+                case 0:
+                    break;
+                case 1:
+                    System.out.printf("Баланс: %.0f%n",person.checkBalance());
+                    break;
+                case 2:
+                    String name = scanner.nextLine();
+                    double prize = Double.parseDouble(scanner.nextLine());
+                    String type = scanner.nextLine();
+                    person.addProduct(name, prize, type);
+                    break;
+                case 3:
+                    String name1 = scanner.nextLine();
+                    double prize1 = Double.parseDouble(scanner.nextLine());
+                    String type1 = scanner.nextLine();
+                    person.deleteProduct(name1, prize1, type1);
+                    break;
+                case 4:
+                    person.cancel();
+                    break;
+                case 5:
+                    person.pay();
+                    break;
+                case 6:
+                    System.out.println(person.getFinanceStatus());
+                    break;
+                case 7:
+                    System.out.println(person.getShop());
+                    break;
+                default:
+                    System.out.println("Wrong Command");
+            }
+        }while (command != 0);
+    }
+}
