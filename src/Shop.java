@@ -25,6 +25,10 @@ public final class Shop implements Payable {
         return cost;
     }
 
+    public List<Product> getProducts() {
+        return products;
+    }
+
     @Override
     public void pay() {
         if(isPaid() || products.isEmpty()) throw new IllegalArgumentException("No");
@@ -64,13 +68,17 @@ public final class Shop implements Payable {
 
     @Override
     public String toString() {
-        String[] shop_string = new String[products.size()];
-        for(int i=0; i< products.size(); i++){
-            shop_string[i] = products.get(i).toString();
-        }
 
+        var shop_string = products.stream().map(Product::toString).toList();
         return !products.isEmpty()
                 ? String.format("#%d - products:%n%s", id, String.join("\n", shop_string))
                 : String.format("#%d - no products", id);
+    }
+
+    public String showSearched(String field) {
+        var result = products.stream().filter(p -> p.getName().startsWith(field)).toList();
+        if(result.isEmpty()) return "Not found";
+        var result_string = result.stream().map(Product::toString).toList();
+        return String.join("\n", result_string);
     }
 }

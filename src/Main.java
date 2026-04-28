@@ -2,7 +2,7 @@ import java.util.*;
 
 public class Main {
     public static void main(String[] args) {
-        Person person = new Person("Nikita", "Mokhin");
+        Person person = new Person("Yarick", "Ovsyannikov");
         int command;
         Scanner scanner = new Scanner(System.in);
         do {
@@ -37,6 +37,15 @@ public class Main {
                 case 7:
                     System.out.println(person.getShop());
                     break;
+                case 8:
+                    String field = scanner.nextLine();
+                    System.out.println(person.getShop().showSearched(field));
+                case 9:
+                    var products = new Product[person.getShop().getProducts().size()];
+                    person.getShop().getProducts().toArray(products);
+                    Arrays.sort(products, Product::compareName);
+                    Arrays.stream(products).toList().forEach(System.out::println);
+
                 default:
                     System.out.println("Wrong Command");
             }

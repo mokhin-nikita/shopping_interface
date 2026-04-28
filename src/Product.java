@@ -20,6 +20,10 @@ public abstract class Product {
         return quantity;
     }
 
+    public String getName() {
+        return name;
+    }
+
     public final double getPrize() {
         return prize;
     }
@@ -43,5 +47,9 @@ public abstract class Product {
     public final boolean equals(Object o) {
         if (!(o instanceof Product product)) return false;
         return Double.compare(prize, product.prize) == 0 && Objects.equals(name, product.name);
+    }
+
+    public static int compareName(Product p1, Product p2) {
+        return p1.getName().compareTo(p2.getName());
     }
 }
