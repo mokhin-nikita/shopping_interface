@@ -44,14 +44,8 @@ public final class Shop implements Payable {
         return status == Status.PAID;
     }
     public void addProduct(Product product) {
-        for(var p : products) {
-            if(product.equals(p)){
-                p.setQuantity(p.getQuantity() + 1);
-                financeStatus = FinanceStatus.EXPENSE;
-                return;
-            }
-        }
-        products.add(product);
+        var found = products.stream().anyMatch(p -> p.equals(product));
+        if(!found) products.add(product);
         financeStatus = FinanceStatus.EXPENSE;
     }
     public void deleteProduct(Product product){
