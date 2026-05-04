@@ -2,7 +2,7 @@ import java.util.*;
 
 public class Main {
     public static void main(String[] args) {
-        Person person = new Person("Yarick", "Ovsyannikov");
+        Person person = new Person("Nikita", "Mokhin");
         int command;
         Scanner scanner = new Scanner(System.in);
         do {
