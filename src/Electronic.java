@@ -19,4 +19,8 @@ public final class Electronic extends Product implements Switchable {
     public void turn_off() {
         isOn = false;
     }
+
+    public boolean getPower() {
+        return isOn;
+    }
 }
