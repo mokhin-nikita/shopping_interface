@@ -46,6 +46,10 @@ public final class Shop implements Payable {
     public void addProduct(Product product) {
         var found = products.stream().anyMatch(p -> p.equals(product));
         if(!found) products.add(product);
+        else {
+            var foundProduct = products.stream().filter(p -> p.equals(product)).findFirst().orElse(null);
+            Objects.requireNonNull(foundProduct).setQuantity(foundProduct.getQuantity() + 1);
+        }
         financeStatus = FinanceStatus.EXPENSE;
     }
     public void deleteProduct(Product product){
