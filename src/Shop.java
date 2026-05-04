@@ -36,7 +36,7 @@ public final class Shop implements Payable {
         financeStatus = FinanceStatus.TOTAL;
     }
     public void cancel() {
-        if(isPaid()) throw new IllegalArgumentException();
+        if(isPaid()) throw new IllegalArgumentException("No");
         status = Status.CANCELED;
     }
     @Override

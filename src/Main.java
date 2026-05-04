@@ -40,12 +40,15 @@ public class Main {
                 case 8:
                     String field = scanner.nextLine();
                     System.out.println(person.getShop().showSearched(field));
+                    break;
                 case 9:
                     var products = new Product[person.getShop().getProducts().size()];
+                    Arrayable<Product> arrayable = List::toArray;
+                    arrayable.toArray(person.getShop().getProducts(), products);
                     person.getShop().getProducts().toArray(products);
                     Arrays.sort(products, Product::compareName);
                     Arrays.stream(products).toList().forEach(System.out::println);
-
+                    break;
                 default:
                     System.out.println("Wrong Command");
             }
