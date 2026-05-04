@@ -1,3 +1,6 @@
 public enum FinanceStatus {
-    EXPENSE, INCOME, TOTAL, NONE
+    EXPENSE,
+    INCOME,
+    TOTAL,
+    NONE
 }
