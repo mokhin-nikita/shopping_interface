@@ -55,14 +55,13 @@ public final class Shop implements Payable {
         financeStatus = FinanceStatus.EXPENSE;
     }
     public void deleteProduct(Product product){
-        for(var p  : products) {
-            if(product.equals(p)){
-                if(p.getQuantity() != 1) p.setQuantity(p.getQuantity() - 1);
-                else products.remove(p);
+        var found = products.stream().anyMatch(p -> p.equals(product));
+        if(found) {
+            var foundProduct = products.stream().filter(p -> p.equals(product)).findFirst().orElse(null);
+            if(Objects.requireNonNull(foundProduct).getQuantity() != 1) foundProduct.setQuantity(foundProduct.getQuantity() - 1);
+            else products.remove(foundProduct);
+            financeStatus = FinanceStatus.INCOME;
 
-                financeStatus = FinanceStatus.INCOME;
-                return;
-            }
         }
     }
 
