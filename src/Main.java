@@ -3,6 +3,7 @@ import java.util.*;
 public class Main {
     public static void main(String[] args) {
         Person person = new Person("Nikita", "Mokhin");
+        Bank b = new Bank();
         int command;
         Scanner scanner = new Scanner(System.in);
         do {
@@ -55,6 +56,15 @@ public class Main {
                     break;
                 case 11:
                     person.printActions();
+                    break;
+                case 12:
+                    double am1 = Double.parseDouble(scanner.nextLine());
+                    person.transfer(am1, b, false);
+                    break;
+                case 13:
+                    double am2 = Double.parseDouble(scanner.nextLine());
+                    person.transfer(am2, b, true);
+                    break;
                     break;
                 default:
                     System.out.println("\033[31mWrong Command\033[0m");

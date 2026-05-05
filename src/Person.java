@@ -15,7 +15,15 @@ public final class Person implements Financable {
         shop = new Shop();
         actions = new ArrayList<>();
     }
-
+    public void transfer(double amount, Bank bank, boolean toEnd){
+        if(toEnd) {
+            boolean result = bank.removeBalance(amount);
+            if(result) balance += amount;
+            return;
+        }
+        balance -= amount;
+        bank.addBalance(amount);
+    }
     @Override
     public double checkBalance() {
         return balance;
