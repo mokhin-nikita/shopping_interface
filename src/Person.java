@@ -41,7 +41,7 @@ public final class Person implements Financable {
             balance -= getShop().getFinalPrize();
             actions.add(String.format("%s -%.0f₽ - (%s)", getFinanceStatus(), getShop().getFinalPrize(), DateStringFormatter.Format(LocalDateTime.now())));
         }else{
-            System.out.println("Недостаточно средств");
+            System.out.println("\033[31mНедостаточно средств\033[0m");
         }
     }
     public void addProduct(String name, double prize, String type) {

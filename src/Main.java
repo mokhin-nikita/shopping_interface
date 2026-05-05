@@ -57,7 +57,7 @@ public class Main {
                     person.printActions();
                     break;
                 default:
-                    System.out.println("Wrong Command");
+                    System.out.println("\033[31mWrong Command\033[0m");
             }
         }while (command != 0);
     }
