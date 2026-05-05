@@ -65,7 +65,6 @@ public class Main {
                     double am2 = Double.parseDouble(scanner.nextLine());
                     person.transfer(am2, b, true);
                     break;
-                    break;
                 default:
                     System.out.println("\033[31mWrong Command\033[0m");
             }
