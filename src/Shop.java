@@ -1,4 +1,5 @@
 import java.util.*;
+import java.util.stream.Collector;
 
 public final class Shop implements Payable {
     private int id;
@@ -16,12 +17,14 @@ public final class Shop implements Payable {
         return financeStatus;
     }
 
+    public void setFinanceStatus(FinanceStatus financeStatus) {
+        this.financeStatus = financeStatus;
+    }
+
     @Override
     public double getFinalPrize() {
-        double cost = 0;
-        for(var p : products) {
-            cost += p.cost();
-        }
+        var costs = products.stream().map(Product::cost).toList();
+        var cost = costs.stream().mapToDouble(Double::doubleValue).sum();
         return cost;
     }
 

@@ -11,7 +11,7 @@ public class Main {
                 case 0:
                     break;
                 case 1:
-                    System.out.printf("Баланс: %.0f%n",person.checkBalance());
+                    System.out.printf("Баланс: %.0f₽%n",person.checkBalance());
                     break;
                 case 2:
                     String name = scanner.nextLine();
@@ -48,6 +48,13 @@ public class Main {
                     person.getShop().getProducts().toArray(products);
                     Arrays.sort(products, Product::compareName);
                     Arrays.stream(products).toList().forEach(System.out::println);
+                    break;
+                case 10:
+                    double am = Double.parseDouble(scanner.nextLine());
+                    person.deposit(am);
+                    break;
+                case 11:
+                    person.printActions();
                     break;
                 default:
                     System.out.println("Wrong Command");

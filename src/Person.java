@@ -1,13 +1,19 @@
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+
 public final class Person implements Financable {
     private String name, surname;
     private Shop shop;
     private double balance;
+    private ArrayList<String> actions;
 
     public Person(String name, String surname) {
         this.name = name;
         this.surname = surname;
         balance = 1000;
         shop = new Shop();
+        actions = new ArrayList<>();
     }
 
     @Override
@@ -30,14 +36,18 @@ public final class Person implements Financable {
         };
     }
     public void pay() {
-        shop.pay();
+        if(HasEnoughMoney()) {
+            shop.pay();
+            balance -= getShop().getFinalPrize();
+            actions.add(String.format("%s -%.0f₽ - (%s)", getFinanceStatus(), getShop().getFinalPrize(), DateStringFormatter.Format(LocalDateTime.now())));
+        }else{
+            System.out.println("Недостаточно средств");
+        }
     }
     public void addProduct(String name, double prize, String type) {
         Product product = getProduct(name, prize, type);
-        if(HasEnoughMoney()){
-            shop.addProduct(product);
-            if(shop.getFinanceStatus() == FinanceStatus.EXPENSE) balance -= product.getPrize();
-        }
+        shop.addProduct(product);
+        actions.add(String.format("%s -%.0f₽ - (%s)", getFinanceStatus(), product.getPrize(), DateStringFormatter.Format(LocalDateTime.now())));
     }
     private Product getProduct(String name, double prize,String type) {
         return switch (type){
@@ -49,7 +59,7 @@ public final class Person implements Financable {
     public void deleteProduct(String name, double prize, String type){
         Product product = getProduct(name, prize, type);
         shop.deleteProduct(product);
-        if(shop.getFinanceStatus() == FinanceStatus.INCOME) balance += product.cost();
+        actions.add(String.format("%s %+.0f₽ - (%s)", getFinanceStatus(), product.getPrize(), DateStringFormatter.Format(LocalDateTime.now())));
     }
     public void cancel() {
         shop.cancel();
@@ -62,5 +72,16 @@ public final class Person implements Financable {
 
     public Shop getShop() {
         return shop;
+    }
+
+    public void deposit(double amount) {
+        if(amount < 0) throw new IllegalArgumentException("No");
+        balance += amount;
+        shop.setFinanceStatus(FinanceStatus.INCOME);
+        actions.add(String.format("%s %+.0f₽ - (%s)", getFinanceStatus(), amount, DateStringFormatter.Format(LocalDateTime.now())));
+    }
+
+    public void printActions() {
+        actions.forEach(System.out::println);
     }
 }
