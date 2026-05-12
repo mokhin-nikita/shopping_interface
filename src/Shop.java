@@ -24,8 +24,7 @@ public final class Shop implements Payable {
     @Override
     public double getFinalPrize() {
         var costs = products.stream().map(Product::cost).toList();
-        var cost = costs.stream().mapToDouble(Double::doubleValue).sum();
-        return cost;
+        return costs.stream().mapToDouble(Double::doubleValue).sum();
     }
 
     public List<Product> getProducts() {

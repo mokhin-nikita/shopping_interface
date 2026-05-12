@@ -6,7 +6,22 @@ public class Main {
         Bank b = new Bank();
         int command;
         Scanner scanner = new Scanner(System.in);
+
         do {
+            System.out.println("Введите номер команды");
+            System.out.println("1 - баланс");
+            System.out.println("2 - добавить продукт");
+            System.out.println("3 - удалить продукт");
+            System.out.println("4 - отмена");
+            System.out.println("5 - оплатить");
+            System.out.println("6 - статус");
+            System.out.println("7 - список продуктов");
+            System.out.println("8 - поиск по имени");
+            System.out.println("9 - сортировка по имени");
+            System.out.println("10 - баланс");
+            System.out.println("11 - история");
+            System.out.println("12 - перевод в банк");
+            System.out.println("13 - перевод с банка");
             command = Integer.parseInt(scanner.nextLine());
             switch (command) {
                 case 0:
@@ -30,7 +45,45 @@ public class Main {
                     person.cancel();
                     break;
                 case 5:
-                    person.pay();
+                    boolean bonusActive = false;
+                    var finalPrize = person.getShop().getFinalPrize();
+                    if(finalPrize == 0) {
+                        break;
+                    }
+                    String payType;
+                    do {
+                        System.out.println("Введите тип оплаты:");
+                        System.out.println("card - банковская карта");
+                        System.out.println("money - наличные");
+                        System.out.println("при некорректном типе - повтор");
+                        payType = scanner.nextLine();
+                        switch (payType) {
+                            case "money":
+                            case "card":
+                                break;
+                            case "bonus":
+                                int precent = Integer.parseInt(scanner.nextLine());
+                                if(!bonusActive) {
+                                    try{
+                                        BonusManager manager = BonusManager.createBonus(finalPrize);
+                                        finalPrize = manager.checkBonus(precent);
+                                        bonusActive = true;
+                                    } catch (Exception e) {
+                                        break;
+                                    }
+                                }
+                                break;
+                            default:
+                                System.out.println("\033[31mWrong Type\033[0m");
+                        }
+                    }while (!payType.equals("money") && !payType.equals("card"));
+
+                    OrderService service = new OrderService(
+                            PaymentFromType(
+                                    moneyTypeFromString(payType)
+                            )
+                    );
+                    person.pay(service, finalPrize);
                     break;
                 case 6:
                     System.out.println(person.getFinanceStatus());
@@ -69,5 +122,18 @@ public class Main {
                     System.out.println("\033[31mWrong Command\033[0m");
             }
         }while (command != 0);
+    }
+    private static MoneyType moneyTypeFromString(String type) {
+        return switch(type) {
+            case "card" -> MoneyType.CARD;
+            case "money" -> MoneyType.CASH;
+            default -> throw new IllegalArgumentException("Wrong");
+        };
+    }
+    private static PaymentStrategy PaymentFromType(MoneyType type) {
+        return switch (type) {
+            case CARD -> new CardPayment();
+            case CASH -> new CashPayment();
+        };
     }
 }

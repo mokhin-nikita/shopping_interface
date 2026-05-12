@@ -1,6 +1,6 @@
 import java.util.function.Predicate;
 
-public class Food extends Product implements Eatable {
+public final class Food extends Product implements Eatable {
     public Food(String name, double prize) {
         super(name, prize);
     }

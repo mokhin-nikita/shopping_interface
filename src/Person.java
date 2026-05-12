@@ -7,6 +7,7 @@ public final class Person implements Financable {
     private Shop shop;
     private double balance;
     private ArrayList<String> actions;
+    private double finalPrize = 0;
 
     public Person(String name, String surname) {
         this.name = name;
@@ -31,7 +32,7 @@ public final class Person implements Financable {
 
     @Override
     public boolean HasEnoughMoney() {
-        return balance >= shop.getFinalPrize();
+        return balance >= finalPrize;
     }
 
     @Override
@@ -43,11 +44,13 @@ public final class Person implements Financable {
             default -> "Ничего";
         };
     }
-    public void pay() {
+    public void pay(OrderService service, double finalPrize) {
+        this.finalPrize = finalPrize;
         if(HasEnoughMoney()) {
             shop.pay();
-            balance -= getShop().getFinalPrize();
-            actions.add(String.format("%s -%.0f₽ - (%s)", getFinanceStatus(), getShop().getFinalPrize(), DateStringFormatter.Format(LocalDateTime.now())));
+            service.checkout( this.finalPrize);
+            balance -=  this.finalPrize;
+            actions.add(String.format("%s -%.0f₽ - (%s)", getFinanceStatus(), this.finalPrize, DateStringFormatter.Format(LocalDateTime.now())));
         }else{
             System.out.println("\033[31mНедостаточно средств\033[0m");
         }
